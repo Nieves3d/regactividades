@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Registro de Actividades</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="col-between">
+        <h1 id="titulo">Control Ingreso y Registro de Actividades</h1>
+        <div id="app" ></div>
+        <form name="registro" id="registro" class="col-between">
+            <fieldset>
+                <div id="main-filter" class="row-js">
+                    <div>Filtrar <input type="checkbox" id="filter" class="checkbox align-vbase">
+                    </div>
+                    <div id="radioempresa" class="">
+                        <input type="radio" name="empresa" class="checkbox align-vbase" value="cala"
+                            checked>CALA</input>
+                        <input type="radio" name="empresa" class="checkbox" value="C&C">C&C</input>
+                        <input type="radio" name="empresa" class="checkbox" value="procleaners">Procleaners</input>
+                        <input type="radio" name="empresa" class="checkbox" value="darSalud">DarSalud</input>
+                        <input type="radio" name="empresa" class="checkbox" value="otro">Otro</input>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Medio de Traslado</legend>
+                <div id="container-radio" class="flex">
+                    <input type="radio" name="modoingreso" value="peatonal" class="checkbox" checked>Peatonal</input>
+
+                    <input type="radio" name="modoingreso" value="moto" class="checkbox">Moto</input>
+
+                    <input type="radio" class="checkbox" name="modoingreso" value="vehiculo">Vehiculo</input>
+                </div>
+            </fieldset>
+            <div class="row-jc" id='inp'>
+                <input name="ls" id="ingresa-persona" list="ls" class="input-select"/>
+                <datalist id="ls">
+                </datalist>
+                <select multiple name="select" id="select-persona" class="input-select">
+                </select>
+            </div>
+            <div class="row-jc">
+                <div> <input class="btn" type="button" Value="Ingresa" id="ingresa" onclick=registrar(this)></div>
+                <div><input class="btn" type="button" id="salida" value="Salida" onclick=registrar(this)></div>
+                <div><input class="btn" type="button" id="agregar" value="Agregar"></div>
+            </div>
+        </form>
+    </div>
+
+</body>
+
+<script type="module" src="app.js">
+    
+    
+</script>
+
+</html>

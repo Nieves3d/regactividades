@@ -1,0 +1,93 @@
+#nombre-persona{
+    display: inline
+    }
+    #select-persona{
+    display:none
+    }
+    
+    #app{
+        overflow:scroll;
+        height: 40vh;
+        width:100%;
+        background:GhostWhite
+    }
+    #b{
+        overflow:scroll
+    }
+    #radioempresa{
+        display:none
+    }
+    .col-between{
+       
+        display:flex;
+        flex-firection: column;
+        flex-wrap: wrap;
+        align-content: space-between;
+        gap:30px
+        
+    }
+    .row-jc{
+        display: flex;
+        flex-wrap:wrap;
+        justify-content: center;
+        gap:20px;
+    }
+    .row-jb{
+        display: flex;
+        flex-wrap:wrap;
+        justify-content: space-between;
+        gap:0px;
+        font-size:1px
+    }
+    .row-js{
+        display: flex;
+        flex-wrap:wrap;
+        justify-content: flex-start;
+        gap:30px;
+        
+    }
+    .align-ibase{
+        align-items:baseline;
+       
+    }
+    
+    .align-vbase{
+       
+        vertical-align: baseline
+    }
+    h1 {
+    font-size:2em;
+      text-align: center;
+    }
+    form{
+        
+        font-size:1em;
+        background:rgb(10, 138, 189);
+        padding:5px 20px 5px 20px
+    }
+    .flex{
+        flex:100%;
+        
+    }
+    .flex-2{
+        flex:50%
+    }
+    .checkbox {
+        height:30px;
+        width:30px;
+    }
+    
+    .input-select{
+        height:1em;
+        width:85%;
+        font-size:1.2em;
+    }
+    .btn{
+        
+        padding:5px 20px 5px 20px;
+        font-size:.8em;
+       
+    }
+    p{
+        font-size:2em
+    }

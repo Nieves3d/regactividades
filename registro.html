@@ -1,0 +1,341 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+<title>Registro de Actividades</title>
+    </head>
+    <body>
+     <div class="col-between">
+         
+         
+        <h1 id="titulo">Control Ingreso y Registro de Actividades
+        </h1>
+        
+        <div id="app"></div>
+        
+        
+     
+        <form  name="registro" id="registro" class="col-between">
+         
+         
+      <fieldset>
+        <div id="main-filter" class="row-js" >        
+          <div>Filtrar <input type="checkbox" id="filter" class="checkbox align-vbase" onclick="isFilter()">
+          </div>
+         <div id="radioempresa" class="" >
+           <input type="radio" name="empresa" class="checkbox align-vbase" value="cala" checked>CALA</input>
+           <input type="radio" name="empresa" class="checkbox" value="C&C">C&C</input>
+           <input type="radio" name="empresa" class="checkbox" value="procleaners">Procleaners</input>
+           <input type="radio" name="empresa" class="checkbox" value="darSalud">DarSalud</input>
+           <input type="radio" name="empresa" class="checkbox"  value="otro">Otro</input>
+         </div>        
+        </div>
+       </fieldset>
+       
+       
+         <fieldset>
+         <legend>Medio de Traslado</legend>
+        <div id="container-radio" class="flex">
+        
+                 <input type="radio" name="modoingreso" value="peatonal" class="checkbox" checked>Peatonal</input>
+                 
+                 <input type="radio" name="modoingreso" value="moto" class="checkbox">Moto</input>
+                 
+                 <input type="radio" class="checkbox"  name="modoingreso" value="vehiculo">Vehiculo</input>
+        </div>
+      </fieldset>
+       
+       
+      <div class="row-jc flex" id='inp'>
+        <input name="ls" id="ingresa-persona" list="ls" class="input-select">
+        <datalist id="ls">
+        
+       </datalist>
+       
+       
+        <select multiple name="select" id="select-persona"  class="input-select">
+        </select>
+      </div>
+        
+        
+        <div class="row-jc flex">
+         <div> <input class="btn" type="button" Value="Ingresa" id="ingresa" onclick=registrar(this)></div>
+          <div><input class="btn" type="button" id="salida" value="Salida" onclick=registrar(this)></div>
+          <div><input class="btn" type="button" id="agregar" value="Agregar"></div>
+        </div>
+        </div>
+        </form>
+      
+      </div>
+      
+  
+    </body>
+    <script>
+        
+let ingSal=['Ingreso','Salida'];
+let comoIngSal = 'peatonal';
+
+let empresa='CALA';
+
+let detalles='botas seg.';
+let hora;
+let db =['hora','empresa'];
+let createE;
+let radioEmpresa=getId('radioempresa');
+let filter= document.getElementById("filter");
+let app= document.getElementById("app");
+
+let dataListPersona = document.getElementById("ls");
+let selectPersona = document.getElementById("select-persona");
+let boton = document.getElementById("ingresa");
+    
+ function getId(id){
+   return document.getElementById(id)
+}
+    
+let personalCala='Alejandro Pecchio(nulo), Angelis Velasquez(1556),Armando Laya(1144), Alberto Contreras(1034), Alberto Teixeira(1604), Ana Guerrero(1119), Anibal Toro(1092), Ali Sanchez(1085), Axel Bolivar(1572), Alaide Linares(1020), Antonio Arena(1598), Carl Velarde(1519), Cesar Avendaño(1617), Carlos Ortega(1340), David Acosta(1614), Damny Tovar(1290), Doris Linares(1151), Dayana Jiménez(1258), Efraín Castillo(1490), Eunice Espinoza(1555), Elica Avila(1021), Enzo Torrealba(1458), Enrique Márquez(1199), Edgar Acosta(1225), Enrique García(1178), Eduardo Jiménez(1143), Filiberto Solano(1244), Francia Ruiz(1446), Gabriel González(1586), Gustavo Adrián(1157), Greidvin Palma(1399), José Uzcátegui(1583), Juan Marín(nulo), Juan C. López(1597), Julio Valdivieso(1588), Jesús Volcán(1565), Juan Márquez(1590), José Avila(1055), Juan C. Palma(1028), Jairo Sequera(1185), Jaime Montero(1438),Jesús Cabrera(1456),Javier Hernández(1227), Jenny Colmenares(1587), Luis Pérez(1059), Luis Carrasquero(1574), Luis A. Pecchio(1153), Morella Veronessi(1009), Marisol Linares(1111), Mirla Villegas(1368), María Orozco(1573), Nina Reyes(1123), Petra Matute(1584), Pablo Vega(1322), Ruber Grithman(1592), Raquel Crespo(1041), Ramón Trujillo(1599), Scarlet Vera(1603), Sonia Rangel(1150), William Palma(1209), Wilfredo González(1243), Yennifer Montoya(1602), Yunis González(1505), Yilver Gaince(1560), Zulayda Paredes(1124)';
+
+let personalCyC='Jose Cuevas, Darío Cuevas, Luis Mota, José Azuaje, José Escobar, Raúl Regalado';
+
+let darSalud='Dr. Darwin Romero, Dr. Daria Lara, Lic. Yannet Velásquez'
+
+let totalPersonal=personalCala+personalCyC+darSalud
+
+function datosPersona(a){
+let b='';
+    switch(a){
+        case 'cala':
+        b=personalCala;
+        break;
+        case 'C&C':
+        b= personalCyC;
+        break;
+        case 'darSalud':
+        b=darSalud;
+        break;
+    }
+
+return b.split(',').map((a)=>a.trim()).sort()}
+
+
+let selectPersonal= getId('select-persona');
+//let ls=getId('ls');
+function crearChildSelect(){
+    let childSelect;
+    datosPersona(empresa).forEach(item=>{
+ childSelect = document.createElement('option');
+ 
+ childSelect.value=item;
+//ls.appendChild(childSelect)
+ childSelect.label=item.slice(0,length-6);
+selectPersonal.appendChild(childSelect);
+
+})
+};
+
+    
+
+function getContainerChild(p){
+    return document.querySelectorAll(p)
+}
+
+
+//probrar codigo
+
+let radio= document.getElementById('container-radio');
+
+function registrar(e){
+    createRegistro(e.value,comoIngSal,
+           empresa,detalles)
+}
+let sale= getId('salida');
+
+//
+//Elementos del Dom
+//
+
+
+
+
+
+//filter.............
+
+
+function isFilter(){
+  if(filter.checked){
+	selectPersona.style.display='inline';
+	ingresaPersona.style.display='none';
+	radioempresa.style.display='inline';
+	}else{
+	selectPersona.style.display='none';
+	ingresaPersona.style.display='inline';
+	radioempresa.style.display='none';
+	}
+}
+// fin filter..........
+
+//agregar eventos a los radio button
+
+let inp = getId('inp')
+
+function radioEmpresaChecked(e){
+    empresa= e.value
+    crearChildSelect()
+    
+    
+  
+}
+
+(function clickRadioEmpresa(){
+let child= document.querySelectorAll('form[name=registro] input[name=empresa]');
+child.forEach(item=>item.addEventListener('click',()=>radioEmpresaChecked(item)))
+
+}());
+
+function radioChecked(e){
+    comoIngSal= e.value
+  
+}
+
+(function clickRadio(){
+let child= document.querySelectorAll('form[name=registro] input[name=modoingreso]');
+child.forEach(item=>item.addEventListener('click',()=>radioChecked(item)))
+
+}());
+
+
+function procesarDatos(){
+hora= new Date();
+hora= hora.toString().slice(16,22);
+let comoIngresaSale = comoIngSal
+	return {hora, ingSal,comoIngSal,empresa,datosPersona,detalles}
+}
+let ingresaPersona= getId("ingresa-persona");
+let personal= getId("select-persona")
+function createRegistro(ingSal,comoIngSal,empresa,datosPersona,detalles)
+ {
+  
+  console.log(typeof personal)
+  let b='';
+  let i;
+  if(isFilter.checked){
+  for(i=0;i<personal.length;i++){
+      b+=personal[i].selected?`_ ${personal[i].value}
+      `:'';
+      console.log(b)
+  }}else{b=ingresaPersona.value}
+
+hora= new Date();
+hora= hora.toString().slice(16,22)
+  createE= document.createElement("p");
+  ingSal=='Ingresa'?createE.style.color='green':createE.style.color='red'
+  createE.innerText= `${hora} - ${ingSal} ${comoIngSal} personal ${empresa}
+ ${b}${detalles?' con '+detalles:''}`
+  app.appendChild(createE)
+  ingresaPersona.value='';
+  
+  app.scrollTop=app.scrollHeight
+  
+  for(i=0;i<personal.length;i++){
+    personal[i].selected=false 
+  }
+}
+
+
+  
+    </script>
+    <style>
+  #nombre-persona{
+display: inline
+}
+#select-persona{
+display:none
+}
+
+#app{
+    overflow:scroll;
+    height:65vh;
+    width:100%;
+    background:GhostWhite
+}
+#b{
+    overflow:scroll
+}
+#radioempresa{
+    display:none
+}
+.col-between{
+
+    display:flex;
+    flex-firection: column;
+    flex-wrap: wrap;
+    align-content: space-between;
+    gap:30px
+    
+}
+.row-jc{
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: center;
+    gap:20px;
+}
+.row-jb{
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: space-between;
+    gap:0px;
+    font-size:1px
+}
+.row-js{
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: flex-start;
+    gap:30px;
+    
+}
+.align-ibase{
+    align-items:baseline;
+   
+}
+
+.align-vbase{
+   
+    vertical-align: baseline
+}
+h1 {
+font-size:2em;
+  text-align: center;
+}
+form{
+    
+    font-size:1.8em;
+    background:red;
+    padding:50px 20px 50px 20px
+}
+.flex{
+    flex:100%;
+    
+}
+.flex-2{
+    flex:50%
+}
+.checkbox {
+    height:30px;
+    width:30px;
+}
+
+.input-select{
+    height:50px;
+    width:85%;
+    font-size:1.2em;
+}
+.btn{
+    height:60px;
+    width:200px;
+    font-size:.8em;
+   
+}
+p{
+    font-size:2em
+}
+    </style>
+</html>
